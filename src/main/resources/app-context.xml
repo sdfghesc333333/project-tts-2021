@@ -88,8 +88,7 @@
 
     <!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
     <!-- Data access object: Hibernate implementation. -->
-    <bean id="contextApplicationContextProvider"
-          class="com.app.tts.services.ApplicationContextProvider"/>
+
 
     <!-- config server -->
 
@@ -121,6 +120,14 @@
         <property name="vertxVertical" ref="ttsVertical"/>
     </bean>
 
+    <!-- config service -->
 
+    <bean id="masterService" class="com.app.tts.services.MasterService">
+        <property name="dataSource" ref="ttsDataSource" />
+    </bean>
+
+    <bean id="baseService" class="com.app.tts.services.BaseService">
+        <property name="dataSource" ref="ttsDataSource"/>
+    </bean>
 
 </beans>
