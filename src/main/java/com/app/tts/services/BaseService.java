@@ -17,11 +17,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class BaseService extends MasterService{
-//	private static DataSource dataSource;
-//
-//	public void setDataSource(DataSource dataSource) {
-//		this.dataSource = dataSource;
-//	}
+	private static DataSource dataSource;
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
 

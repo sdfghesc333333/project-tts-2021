@@ -40,7 +40,7 @@ public class ExceptionHandler implements Handler<RoutingContext>, LoggerInterfac
                 statusMessage = HttpResponseStatus.INTERNAL_SERVER_ERROR.reasonPhrase();
             }
         } else {
-            logger.error("[ERROR]", throwable);
+            //logger.infor("[ERROR]", throwable);
             systemError = new MainObject(500, "");
         }
         Map responseBodyMap = new LinkedHashMap<>();

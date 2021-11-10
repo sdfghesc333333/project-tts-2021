@@ -40,16 +40,7 @@
     <bean
             class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
-            <value>classpath:/app.properties</value>
-        </property>
-        <property name="systemPropertiesModeName"
-                  value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-    </bean>
-
-    <bean
-            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <value>classpath:/app.properties</value>
+            <value>classpath:app.properties</value>
         </property>
         <property name="systemPropertiesModeName"
                   value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
@@ -127,6 +118,10 @@
     </bean>
 
     <bean id="baseService" class="com.app.tts.services.BaseService">
+        <property name="dataSource" ref="ttsDataSource"/>
+    </bean>
+    
+    <bean id="userService" class="com.app.tts.services.UserService">
         <property name="dataSource" ref="ttsDataSource"/>
     </bean>
 

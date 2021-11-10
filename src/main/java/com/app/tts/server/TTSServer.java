@@ -69,7 +69,8 @@ public class TTSServer implements Runnable, LoggerInterface {
             Vertx.vertx(vertxOptions).deployVerticle(vertxVertical);
 
         } catch (Exception e) {
-            logger.error("", e);
+            //logger.error("", e);
+        	e.printStackTrace();
         }
     }
 

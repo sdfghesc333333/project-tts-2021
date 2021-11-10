@@ -8,6 +8,7 @@ package com.app.tts.server.vertical;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.AllUserHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
@@ -116,7 +117,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		httpServer.listen(result -> {
 			if (result.failed()) {
-				logger.error("[INIT] START TTS API ERROR " + result.cause());
+				logger.info("[INIT] START TTS API ERROR " + result.cause());
 			} else {
 				logger.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON + serverPort);
 			}
@@ -133,6 +134,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+		router.route(HttpMethod.GET, "/user/list-all").handler(new AllUserHandler());
 
 		return router;
 	}

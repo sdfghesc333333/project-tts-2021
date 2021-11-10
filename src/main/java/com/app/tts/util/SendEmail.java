@@ -61,7 +61,7 @@ public class SendEmail implements LoggerInterface {
             Transport.send(msg);
             logger.info("Message send Successfully:)");
         } catch (MessagingException | UnsupportedEncodingException mex) {
-            logger.error("", mex);
+            //logger.error("", mex);
             ret = -1;
         }
         return ret;
