@@ -15,21 +15,20 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class FindUserById implements Handler<RoutingContext>, SessionStore {@Override
+public class DeleteUserByEmail implements Handler<RoutingContext>, SessionStore {@Override
 	public void handle(RoutingContext routingContext) {
 
 		routingContext.vertx().executeBlocking(future -> {
 			try {								
 				HttpServerRequest httpServerRequest = routingContext.request();
-				String userId = httpServerRequest.getParam("id");
-				LOGGER.info("---userId = "+ userId);
-				Map data = new HashMap();
-				List<Map> users = UserService.findUserById(userId);		
-				data.put("list user", users);
-				LOGGER.info("Users result: " + users);
+				String userEmail = httpServerRequest.getParam("email");
+				LOGGER.info("---userEmail = "+ userEmail);
+
+				UserService.delete(userEmail);
+				
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-				routingContext.put(AppParams.RESPONSE_DATA, data);
+				//routingContext.put(AppParams.RESPONSE_DATA, data);
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
@@ -43,6 +42,6 @@ public class FindUserById implements Handler<RoutingContext>, SessionStore {@Ove
 		});
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(FindUserById.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DeleteUserByEmail.class.getName());
 
 }

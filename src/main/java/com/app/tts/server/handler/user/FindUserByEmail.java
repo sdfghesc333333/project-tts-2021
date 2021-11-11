@@ -11,7 +11,6 @@ import com.app.tts.util.AppParams;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
@@ -21,14 +20,14 @@ public class FindUserByEmail implements Handler<RoutingContext>, SessionStore {@
 		routingContext.vertx().executeBlocking(future -> {
 			try {								
 				HttpServerRequest httpServerRequest = routingContext.request();
-				String userEmail = httpServerRequest.getParam("userEmail");
-				LOGGER.info("---userId = "+ userEmail);
-				JsonObject data = new JsonObject();
-
-//				String sessionId = cookie.getValue();
-//				Users loggedInUser = gson.fromJson(jedis.get(sessionId), Users.class);
-				/*Map user = UserService.getUserById(userId);			
-				LOGGER.info("Users result: " + users);*/
+				String userEmail = httpServerRequest.getParam("email");
+				LOGGER.info("---userEmail = "+ userEmail);
+				
+				Map data = new HashMap();
+				List<Map> users = UserService.findUserByEmail(userEmail);		
+				data.put("list user", users);
+				LOGGER.info("Users result: " + users);
+				
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				routingContext.put(AppParams.RESPONSE_DATA, data);

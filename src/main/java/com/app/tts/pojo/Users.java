@@ -1,6 +1,7 @@
 package com.app.tts.pojo;
 // Generated Sep 25, 2020 2:22:03 PM by Hibernate Tools 4.3.1
 
+import java.util.Date;
 import java.util.Map;
 
 import com.app.tts.util.AppParams;
@@ -19,6 +20,8 @@ public class Users {
 	private String email;
 	private String password;
 	private String avatar;
+	private Date create;
+	private Date update;
 
 	public String getId() {
 		return id;
@@ -50,6 +53,22 @@ public class Users {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public Date getCreate() {
+		return create;
+	}
+
+	public void setCreate(Date create) {
+		this.create = create;
+	}
+
+	public Date getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(Date update) {
+		this.update = update;
 	}
 
 	public static Users fromMap(Map input) {

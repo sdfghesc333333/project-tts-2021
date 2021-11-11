@@ -12,7 +12,11 @@ import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.user.AllUserHandler;
+import com.app.tts.server.handler.user.CreateUserHandler;
+import com.app.tts.server.handler.user.DeleteUserByEmail;
+import com.app.tts.server.handler.user.FindUserByEmail;
 import com.app.tts.server.handler.user.FindUserById;
+import com.app.tts.server.handler.user.UpdateUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -135,8 +139,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-		router.route(HttpMethod.GET, "/user/list").handler(new AllUserHandler());
-		router.route(HttpMethod.GET, "/user/list/:id").handler(new FindUserById());
+		
+		// api user
+		router.route(HttpMethod.GET, "/user").handler(new AllUserHandler());
+		router.route(HttpMethod.GET, "/user/:id").handler(new FindUserById());
+		router.route(HttpMethod.GET, "/user/:email").handler(new FindUserByEmail());
+		router.route(HttpMethod.POST, "/user").handler(new CreateUserHandler());
+		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
+		router.route(HttpMethod.DELETE, "/user/:email").handler(new DeleteUserByEmail());
 
 		return router;
 	}
