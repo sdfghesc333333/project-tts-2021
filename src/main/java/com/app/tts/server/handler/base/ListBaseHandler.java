@@ -84,7 +84,7 @@ public class ListBaseHandler implements Handler<RoutingContext>, SessionStore {
 			listBaseDB.put(baseGroupName, listBaseGroup);
 		}
 
-		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);
+//		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);
 
 		return listBaseDB;
 	}

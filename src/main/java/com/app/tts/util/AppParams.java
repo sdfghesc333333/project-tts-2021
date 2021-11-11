@@ -130,6 +130,8 @@ public class AppParams {
 	public static final String RESULT_TOTAL = "result_total";
 	public static final String RESULT_OVERVIEW = "result_overview";
 	public static final String RESULT_DATA = "result_data";
+	public static final String RESULT_DATA_2 = "result_data_2";
+	public static final String RESULT_DATA_3 = "result_data_3";
 	public static final String P_OUT_ID = "p_out_id";
 	public static final String P_OUT_IDS = "p_out_ids";
 
@@ -140,6 +142,8 @@ public class AppParams {
 	public static final String RESPONSE_CODE = "response_code";
 	public static final String RESPONSE_MSG = "response_msg";
 	public static final String RESPONSE_DATA = "response_data";
+	public static final String RESPONSE_DATA_2 = "response_data_2";
+	public static final String RESPONSE_DATA_3 = "response_data_3";
 
 	/**
 	 * Error Params
