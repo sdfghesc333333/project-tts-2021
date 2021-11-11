@@ -11,8 +11,10 @@ import com.app.tts.util.AppParams;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerRequest;
+import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 public class DeleteUserByEmail implements Handler<RoutingContext>, SessionStore {@Override
@@ -20,15 +22,24 @@ public class DeleteUserByEmail implements Handler<RoutingContext>, SessionStore 
 
 		routingContext.vertx().executeBlocking(future -> {
 			try {								
+				HttpServerResponse response = routingContext.response();
 				HttpServerRequest httpServerRequest = routingContext.request();
-				String userEmail = httpServerRequest.getParam("email");
-				LOGGER.info("---userEmail = "+ userEmail);
-
-				UserService.delete(userEmail);
+				String userEmail = httpServerRequest.getParam("email");			
 				
-				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-				//routingContext.put(AppParams.RESPONSE_DATA, data);
+				List<Map> users = UserService.findUserByEmail(userEmail);
+				
+				if(userEmail != null) {
+					if(users.isEmpty()) {
+						response.end(Json.encode("ERROR: email already exist!"));						
+					}else {
+						UserService.delete(userEmail);
+						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+						response.end(Json.encode(HttpResponseStatus.CREATED.reasonPhrase()));
+					}
+				}else {
+					response.end(Json.encode("ERROR: email null!"));
+				}
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
