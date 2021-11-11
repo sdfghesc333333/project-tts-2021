@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
@@ -36,7 +37,7 @@ public class CreateUserHandler implements Handler<RoutingContext>, SessionStore 
 				
 				if(email != null) {
 					if(users.isEmpty()) {
-						UserService.insert(email, avatar, password);
+						UserService.insert(email, avatar, Md5Code.md5(password));
 						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
 						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
 						//routingContext.put(AppParams.RESPONSE_DATA, data);
@@ -47,6 +48,9 @@ public class CreateUserHandler implements Handler<RoutingContext>, SessionStore 
 				}else {
 					response.end(Json.encode("ERROR: email null!"));
 				}
+				
+				
+				
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);

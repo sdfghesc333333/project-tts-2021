@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
@@ -35,7 +36,7 @@ public class UpdateUserHandler implements Handler<RoutingContext>, SessionStore 
 					if(oldUser.isEmpty()) {
 						response.end("ERROR: user not found!");
 					}else {
-						UserService.update(email, avatar, password);
+						UserService.update(email, avatar, Md5Code.md5(password));
 						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());							
 						data.put("new user", UserService.findUserByEmail(email));
