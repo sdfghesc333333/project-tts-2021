@@ -15,6 +15,7 @@ import com.app.tts.error.exception.OracleException;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.DBProcedureUtil;
 import com.app.tts.util.ParamUtil;
+import com.mchange.v2.cfg.DelayedLogItem.Level;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import oracle.jdbc.OracleTypes;
@@ -27,7 +28,7 @@ public class UserService{
 	}
 
 	public static final String FIND_ALL_USER = "{call PKG_TTS_TRUONG.findAllUser(?,?,?)}";
-
+	
 	public static List<Map> findAllUser() throws SQLException {
 
 		Map inputParams = new LinkedHashMap<Integer, String>();
@@ -46,24 +47,26 @@ public class UserService{
 				outputParamsNames);
 
 		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-
+		System.out.println(resultCode);
 		if (resultCode != HttpResponseStatus.OK.code()) {
+			System.out.println("service 52");
+			System.out.println(HttpResponseStatus.OK.code());
 			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
 		}
 
-		Map resultMap = new HashMap<>();
 		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
 
-//		if (!resultDataList.isEmpty()) {
-//			resultMap = format(resultDataList.get(0));
-//		}
-
-		LOGGER.info("=> All Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
+		LOGGER.info(Level.INFO + "=> All Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
+		List<Map> result = new ArrayList();
+		/*for (Map b : resultDataList) {
+			b = format(b);
+			result.add(b);
+		}*/
 
 		return resultDataList;
 	}
 
-	private static Map format(Map queryData) {
+	/*private static Map format(Map queryData) {
 
 		Map resultMap = new LinkedHashMap<>();
 		Map printTable = new LinkedHashMap<>();
@@ -75,7 +78,7 @@ public class UserService{
 		resultMap.put(AppParams.AVATAR, ParamUtil.getString(queryData, AppParams.S_AVATAR));
 		resultMap.put(AppParams.PASSWORD, ParamUtil.getString(queryData, AppParams.S_PASSWORD));
 		return resultMap;
-	}
+	}*/
 
 
 
