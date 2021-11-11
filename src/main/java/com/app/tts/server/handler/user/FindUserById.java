@@ -1,6 +1,5 @@
 package com.app.tts.server.handler.user;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -11,16 +10,23 @@ import com.app.tts.util.AppParams;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class AllUserHandler implements Handler<RoutingContext>, SessionStore {@Override
+public class FindUserById implements Handler<RoutingContext>, SessionStore {@Override
 	public void handle(RoutingContext routingContext) {
 
 		routingContext.vertx().executeBlocking(future -> {
 			try {								
-				Map data = new HashMap();
-				List<Map> users = UserService.findAllUser();
-				data.put("list user", users);				
+				HttpServerRequest httpServerRequest = routingContext.request();
+				String userId = httpServerRequest.getParam("userId");
+				LOGGER.info("---userId = "+ userId);
+				JsonObject data = new JsonObject();
+
+//				String sessionId = cookie.getValue();
+//				Users loggedInUser = gson.fromJson(jedis.get(sessionId), Users.class);
+				List<Map> users = UserService.findUserById(userId);			
 				LOGGER.info("Users result: " + users);
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
@@ -38,7 +44,6 @@ public class AllUserHandler implements Handler<RoutingContext>, SessionStore {@O
 		});
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(AllUserHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(FindUserById.class.getName());
 
 }
-
