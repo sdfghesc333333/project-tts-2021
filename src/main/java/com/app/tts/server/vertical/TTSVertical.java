@@ -11,6 +11,7 @@ import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.user.*;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -133,16 +134,12 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-<<<<<<< Updated upstream
-
-=======
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 		router.route(HttpMethod.GET, "/user/:userId").handler(new GetUserByIdHandler());
 		router.route(HttpMethod.DELETE, "/user/:userId").handler(new DelUserByIdHandler());
 		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
 		router.route(HttpMethod.PUT, "/users").handler(new UpdatePassHandler());
->>>>>>> Stashed changes
 		return router;
 	}
 }
