@@ -8,13 +8,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import org.apache.commons.validator.routines.EmailValidator;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class UpdateUserHandler implements Handler<RoutingContext> {
+public class UpdatePassHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext rc) {
@@ -22,10 +21,9 @@ public class UpdateUserHandler implements Handler<RoutingContext> {
             try {
                 JsonObject jsonRequest = rc.getBodyAsJson();
                 String email = jsonRequest.getString(AppParams.EMAIL);
-                String username = jsonRequest.getString(AppParams.USERNAME);
-                String address = jsonRequest.getString(AppParams.ADDRESS);
-                String phone = jsonRequest.getString(AppParams.PHONE);
-                String state = jsonRequest.getString(AppParams.STATE);
+                String passwordold = jsonRequest.getString("passwordold");
+                String password = jsonRequest.getString(AppParams.PASSWORD);
+                String confirmPassword = jsonRequest.getString("confirmPassword");
 
 
                 Map data = new HashMap();
@@ -34,28 +32,28 @@ public class UpdateUserHandler implements Handler<RoutingContext> {
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
 //                data.put("email", email);
 
-                LOGGER.info("---email = " + email);
-                List<Map> user = UserService.getUserByEmail(email);
+                LOGGER.info("---password = " + email);
+                List<Map> user = UserService.getPassByEmail(email);
 
                 boolean duplicate = false;
                 if (!user.isEmpty()) {
                     duplicate = true;
-                }
-               if (username.isEmpty()) {
+                }if (!password.equals(confirmPassword)) {
                     duplicate = true;
-                    data.put("message", "sửa thất bại! ,  chưa nhập username");
-                } else if (!isValid(email)) {
-                    data.put("message", "sửa thất bại! , email không hợp lệ");
-                } else if (!duplicate) {
-                    data.put("message", "sửa thất bại! , không tìm được email này" + email);
-                } else if (duplicate && isValid(email)) {
+                    data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
+                }
+                if (6 <= password.length() && password.length() <= 18) {
+                    data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
+                }else if (!duplicate) {
+                    data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
+                }else if (duplicate) {
 
-                    List<Map> userJson = UserService.updateUser(email,username,address, phone, state);
-                    data.put("sửa thành công: ", userJson);
-                   rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                   rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                    List<Map> userJson = UserService.updatePass(email, password);
+                    data.put("đổi mật khẩu thành công: ", userJson);
+                    rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                    rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                 } else {
-                    data.put("message", "sửa thất bại");
+                    data.put("message", " thất bại");
                 }
                 rc.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
@@ -76,6 +74,5 @@ public class UpdateUserHandler implements Handler<RoutingContext> {
         valid = EmailValidator.getInstance().isValid(email);
         return true;
     }
-    private static final Logger LOGGER = Logger.getLogger(UpdateUserHandler.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(UpdatePassHandler.class.getName());
 }
