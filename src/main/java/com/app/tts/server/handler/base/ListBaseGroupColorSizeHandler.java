@@ -1,6 +1,6 @@
 package com.app.tts.server.handler.base;
 
-import com.app.tts.services.ListBaseGroupColorSizeService_Test;
+import com.app.tts.services.ListBaseGroupColorSizeService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -10,7 +10,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import java.sql.SQLException;
 import java.util.*;
 
-public class ListBaseGroupColorSizeHandler_Test implements Handler<RoutingContext> {
+public class ListBaseGroupColorSizeHandler implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
@@ -34,7 +34,7 @@ public class ListBaseGroupColorSizeHandler_Test implements Handler<RoutingContex
 
     public static Map getListBGCSFromDB() throws SQLException{
         Map listBaseDB = new HashMap();
-        Map mapInput = ListBaseGroupColorSizeService_Test.getListBaseGroupColorSize();
+        Map mapInput = ListBaseGroupColorSizeService.getListBaseGroupColorSize();
 
         List<Map> listBase = ParamUtil.getListData(mapInput, AppParams.RESULT_DATA);
         List<Map> listColor = ParamUtil.getListData(mapInput, AppParams.RESULT_DATA_2);

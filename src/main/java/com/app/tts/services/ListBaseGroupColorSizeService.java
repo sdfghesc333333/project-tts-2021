@@ -13,9 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.app.tts.services.ListBaseService_Test.format;
+import static com.app.tts.services.ListBaseService.format;
 
-public class ListBaseGroupColorSizeService_Test extends MasterService{
+public class ListBaseGroupColorSizeService extends MasterService{
     public static final String GET_LIST_DATA = "{call PKG_PHUONG.LIST_GROUP_BASE_COLOR_SIZE(?,?,?,?,?)}";
 
     public static Map getListBaseGroupColorSize() throws SQLException{

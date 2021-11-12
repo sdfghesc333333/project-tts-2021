@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListBaseService_Test extends MasterService{
+public class ListBaseService extends MasterService{
 
     public static final String GET_LIST_DATA = "{call PKG_PHUONG.LIST_BASE(?,?,?)}";
 
@@ -36,20 +36,26 @@ public class ListBaseService_Test extends MasterService{
 
         int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
 
-        if(resultCode != HttpResponseStatus.OK.code()){
+        if (resultCode != HttpResponseStatus.OK.code()) {
             throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
         }
 
         List<Map> result = new ArrayList<>();
-        List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
 
-        for(Map b: resultDataList){
-            b = format(b);
-            result.add(b);
+            List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
+            //excuteQuery(GET_LIST_DATA, new Object[] {basse, siat});
+
+
+            for (Map b : resultDataList) {
+                b = format(b);
+                result.add(b);
+            }
+
+            return result;
         }
 
-        return result;
-    }
+
+
 
     public static Map format(Map queryData) {
 

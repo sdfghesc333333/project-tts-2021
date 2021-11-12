@@ -5,9 +5,13 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler_Test;
+import com.app.tts.server.handler.User.DeleteUserHandler;
+import com.app.tts.server.handler.User.GetAllUserHandler;
+import com.app.tts.server.handler.User.InsertUserHandler;
+import com.app.tts.server.handler.User.UpdateUserHandler;
+import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.base.ListBaseHandler_Test;
+import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
@@ -136,9 +140,13 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 
-		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler_Test());
-		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler_Test());
+		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
 
+		router.route(HttpMethod.POST, "/insert_user").handler(new InsertUserHandler());
+		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
+		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
 		return router;
 	}
 }
