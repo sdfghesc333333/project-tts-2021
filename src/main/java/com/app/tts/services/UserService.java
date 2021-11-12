@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class UserService  extends MasterService{
 
-
     public static final String INSERT_USER = "{call PKG_QUY.create_user(?,?,?,?,?,?,?,?,?)}";
     public static final String GET_USER_BY_ID = "{call PKG_QUY.get_user_byid(?,?,?,?,?)}";
     public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";

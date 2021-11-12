@@ -2,6 +2,7 @@ package com.app.tts.server.handler.user;
 
 import com.app.tts.encode.Md5Code;
 
+import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;

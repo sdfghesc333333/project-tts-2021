@@ -156,7 +156,7 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
-	public static final String S_ID = "S_ID";
+	public static final String S_ID = "TTS_ID";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -221,7 +221,7 @@ public class AppParams {
 	public static final String S_PRINTABLE_BACK_WIDTH = "S_PRINTABLE_BACK_WIDTH";
 	public static final String S_PRINTABLE_BACK_HEIGHT = "S_PRINTABLE_BACK_HEIGHT";
 
-	public static final String S_STATE = "S_STATE";
+	public static final String S_STATE = "TTS_STATE";
 	public static final String D_CREATE = "D_CREATE";
 	public static final String D_UPDATE = "D_UPDATE";
 
@@ -250,14 +250,14 @@ public class AppParams {
 	public static final String ERROR = "error";
 
 	public static final String USERNAME = "username";
-	public static final String S_USERNAME = "S_USERNAME";
+	public static final String S_USERNAME = "TTS_USERNAME";
 	public static final String PASSWORD = "password";
 	public static final String ADDRESS = "address";
 	public static final String S_FIRST_NAME = "S_FIRST_NAME";
 	public static final String S_LAST_NAME = "S_LAST_NAME";
-	public static final String S_ADDRESS = "S_ADDRESS";
-	public static final String D_CREATED_AT = "D_CREATED_AT";
-	public static final String D_UPDATED_AT = "D_UPDATED_AT";
+	public static final String S_ADDRESS = "TTS_ADDRESS";
+	public static final String D_CREATED_AT = "CREATED_AT";
+	public static final String D_UPDATED_AT = "UPDATED_AT";
 	public static final String D_LAST_LOGGED_IN = "D_LAST_LOGGEDIN";
 	public static final String CREATE_AT = "created_at";
 	public static final String UPDATE_AT = "updated_at";
@@ -268,9 +268,9 @@ public class AppParams {
 	public static final String S_MEDIA = "S_MEDIA";
 	public static final String SENDER = "sender";
 	public static final String MEDIA = "media";
-	public static final String S_PHONE = "S_PHONE";
-	public static final String S_PASSWORD = "S_PASSWORD";
-	public static final String S_EMAIL = "S_EMAIL";
+	public static final String S_PHONE = "TTS_PHONE";
+	public static final String S_PASSWORD = "TTS_PASSWORD";
+	public static final String S_EMAIL = "TTS_EMAIL";
 	public static final String S_ADMIN = "S_ADMIN";
 	public static final String ADMIN = "admin";
 	public static final String S_MEMBER = "S_MEMBER";
