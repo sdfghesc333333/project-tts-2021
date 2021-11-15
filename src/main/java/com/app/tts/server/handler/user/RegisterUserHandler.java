@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.user;
+package com.app.tts.server.handler.User;
 
 import com.app.tts.encode.Md5Code;
 
@@ -47,8 +47,7 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
                 if (!password.equals(confirmPassword)) {
 
                     data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
-                } else if (18 <= password.length() && password.length() <= 6) {
-
+                } else if (18 < password.length() || password.length() < 6) {
                     data.put("message", "đăng ký thất bại! ,  mật khẩu phải từ 6 đến 18 kí tự");
                 } else if (phone.length() != 10) {
                     data.put("message", "đăng ký thất bại! ,  yêu cầu nhập đủ 10 số điện thoại");

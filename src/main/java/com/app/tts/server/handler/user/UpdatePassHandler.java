@@ -2,12 +2,14 @@ package com.app.tts.server.handler.User;
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,17 +34,20 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
 //                data.put("email", email);
                 List<Map> user = UserService.getPassByEmail(email);
+                Map list = user.get(0);
 
+                String pass = ParamUtil.getString(list, AppParams.S_PASSWORD);
                 boolean duplicate = false;
                 if (!user.isEmpty()) {
                     duplicate = true;
                 }
-                if (!password.equals(confirmPassword)) {
+                if (!pass.equals(passwordold)) {
+                    duplicate = true;
+                    data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
+                } else if (!password.equals(confirmPassword)) {
                     data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
                 } else if (18 <= password.length() && password.length() <= 6) {
                     data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
-                } else if (!user.equals(passwordold)) {
-                    data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
                 } else if (!duplicate) {
                     List<Map> userJson = UserService.updatePass(email, password);
                     data.put("đổi mật khẩu thành công: ", userJson);

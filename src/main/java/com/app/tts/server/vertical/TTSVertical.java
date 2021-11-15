@@ -18,7 +18,7 @@ import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.user.DelUserByIdHandler;
 import com.app.tts.server.handler.user.GetAllUserHandler;
 import com.app.tts.server.handler.user.GetUserByIdHandler;
-import com.app.tts.server.handler.user.RegisterUserHandler;
+import com.app.tts.server.handler.User.RegisterUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
