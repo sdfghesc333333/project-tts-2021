@@ -90,5 +90,5 @@ public class ListBaseHandler implements Handler<RoutingContext>, SessionStore {
 	}
 
 	private static final Logger LOGGER = Logger.getLogger(ListBaseHandler.class.getName());
-
+										
 }
