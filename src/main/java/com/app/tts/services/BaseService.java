@@ -17,13 +17,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class BaseService extends MasterService{
-	private static DataSource dataSource;
+	/*private static DataSource dataSource;
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
-	}
+	}*/
 
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
+	public static final String GET_ALL_BASE = "{call PKG_TTS_TRUONG(?, ?, ?)}";
 
 	public static List<Map> getListBase() throws SQLException {
 
@@ -57,6 +58,10 @@ public class BaseService extends MasterService{
 		}
 
 		return result;
+	}
+	
+	public static List<Map> getAllBase() throws SQLException{
+		return searchAll(GET_ALL_BASE, new Object[] {});
 	}
 
 	private static Map format(Map queryData) {

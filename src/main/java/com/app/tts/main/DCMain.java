@@ -5,7 +5,6 @@
  */
 package com.app.tts.main;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

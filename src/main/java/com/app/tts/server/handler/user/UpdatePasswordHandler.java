@@ -18,37 +18,45 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class UpdateUserHandler implements Handler<RoutingContext>, SessionStore {@Override
+public class UpdatePasswordHandler implements Handler<RoutingContext>, SessionStore {@Override
 	public void handle(RoutingContext routingContext) {
 
 		routingContext.vertx().executeBlocking(future -> {
 			try {			
 				HttpServerResponse response = routingContext.response();
 				JsonObject jsonRequest = routingContext.getBodyAsJson();
-				String email = jsonRequest.getString(AppParams.EMAIL);
-				String avatar = jsonRequest.getString(AppParams.AVATAR);
-				String password = jsonRequest.getString(AppParams.PASSWORD);
-				
-				/*JsonArray arr = jsonRequest.getJsonArray("email");
-				System.out.println(arr);*/
+				String c_email = jsonRequest.getString(AppParams.EMAIL);
+				String o_password = jsonRequest.getString(AppParams.PASSWORD);
+				String n_password = jsonRequest.getString("new password");
+				String c_password = jsonRequest.getString("confirm password");
+				String c_avatar = null;
 				
 				Map data = new HashMap();
-				List<Map> oldUser = UserService.findUserByEmail(email);
+				List<Map> users = UserService.findUserByEmail(c_email);
+				/*for (Map m : users) {
+					data.put()
+				}*/
+				
+				List<Map> oldUser = UserService.findUserByEmail(c_email);
+				
+				
+				/*Map data = new HashMap();
+				List<Map> oldUser = UserService.findUserByEmail(c_email);
 				data.put("old user", oldUser);
 				
 				if(email != null) {
 					if(oldUser.isEmpty()) {
 						response.end("ERROR: user not found!");
 					}else {
-						UserService.update(email, avatar, Md5Code.md5(password));
+						UserService.update(c_email, c_avatar, Md5Code.md5(n_password));
 						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());							
-						data.put("new user", UserService.findUserByEmail(email));
+						data.put("new user", UserService.findUserByEmail(c_email));
 		                response.end(Json.encodePrettily(data));
 					}
 				}else {
 					response.end(Json.encode("ERROR: email already exist!"));
-				}				
+				}	*/			
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
@@ -62,6 +70,6 @@ public class UpdateUserHandler implements Handler<RoutingContext>, SessionStore 
 		});
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(UpdateUserHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(UpdatePasswordHandler.class.getName());
 
 }

@@ -13,7 +13,8 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class AllUserHandler implements Handler<RoutingContext>, SessionStore {@Override
+public class AllUserHandler implements Handler<RoutingContext>, SessionStore {
+	@Override
 	public void handle(RoutingContext routingContext) {
 
 		routingContext.vertx().executeBlocking(future -> {

@@ -11,7 +11,6 @@ import com.app.tts.util.AppParams;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
@@ -27,6 +26,7 @@ public class FindUserById implements Handler<RoutingContext>, SessionStore {@Ove
 				List<Map> users = UserService.findUserById(userId);		
 				data.put("list user", users);
 				LOGGER.info("Users result: " + users);
+				//Map data = UserService.findUserById(userId);
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				routingContext.put(AppParams.RESPONSE_DATA, data);

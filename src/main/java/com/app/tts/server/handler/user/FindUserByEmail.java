@@ -22,9 +22,10 @@ public class FindUserByEmail implements Handler<RoutingContext>, SessionStore {@
 				HttpServerRequest httpServerRequest = routingContext.request();
 				String userEmail = httpServerRequest.getParam("email");
 				LOGGER.info("---userEmail = "+ userEmail);
-				
 				Map data = new HashMap();
-				List<Map> users = UserService.findUserByEmail(userEmail);		
+				LOGGER.info("h26");
+				List<Map> users = UserService.findUserByEmail(userEmail);
+				LOGGER.info("h28");
 				data.put("list user", users);
 				LOGGER.info("Users result: " + users);
 				

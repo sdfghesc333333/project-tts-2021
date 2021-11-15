@@ -33,7 +33,7 @@ public class DeleteUserByEmail implements Handler<RoutingContext>, SessionStore 
 						UserService.delete(userEmail);
 						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-						response.end(Json.encode(HttpResponseStatus.CREATED.reasonPhrase()));
+						response.end(Json.encode(HttpResponseStatus.OK.reasonPhrase()));
 					}
 				}else {
 					response.end(Json.encode("ERROR: email null!"));

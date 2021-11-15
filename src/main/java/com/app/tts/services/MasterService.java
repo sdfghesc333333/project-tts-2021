@@ -44,6 +44,10 @@ public class MasterService {
 		List<Map> queryList = excuteQuery(query, args);
 		return (queryList != null && queryList.isEmpty() == false) ? queryList.get(0) : null;
 	}
+	
+	protected static List<Map> delete(String query, Object[] args) throws SQLException {
+		return excuteQuery(query, args);
+	};
 
 	public static List<Map> excuteQuery(String query, Object[] args) throws SQLException {
 		int beginIdx = 0;

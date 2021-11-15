@@ -16,6 +16,7 @@ import com.app.tts.server.handler.user.CreateUserHandler;
 import com.app.tts.server.handler.user.DeleteUserByEmail;
 import com.app.tts.server.handler.user.FindUserByEmail;
 import com.app.tts.server.handler.user.FindUserById;
+import com.app.tts.server.handler.user.RegisterHandler;
 import com.app.tts.server.handler.user.UpdateUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
@@ -139,6 +140,9 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+		
+		// api register
+		router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
 		
 		// api user
 		router.route(HttpMethod.GET, "/user").handler(new AllUserHandler());

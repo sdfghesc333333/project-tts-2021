@@ -20,12 +20,7 @@ import com.mchange.v2.cfg.DelayedLogItem.Level;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import oracle.jdbc.OracleTypes;
 
-public class UserService{
-	private static DataSource dataSource;
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+public class UserService extends MasterService {
 
 	public static final String FIND_ALL_USER = "{call PKG_TTS_TRUONG.findAllUser(?,?,?)}";
 	public static final String CREATE_USER = "{call PKG_TTS_TRUONG.create_user(?,?,?,?,?,?)}";
@@ -35,43 +30,18 @@ public class UserService{
 	public static final String DELETE_USER = "{call PKG_TTS_TRUONG.deleteUserByEmail(?,?,?,?)}";
 	
 	public static List<Map> findAllUser() throws SQLException {
-
-		Map inputParams = new LinkedHashMap<Integer, String>();
-		
-		Map<Integer, Integer> outputParamsTypes = new LinkedHashMap<>();
-		outputParamsTypes.put(1, OracleTypes.NUMBER);
-		outputParamsTypes.put(2, OracleTypes.VARCHAR);
-		outputParamsTypes.put(3, OracleTypes.CURSOR);
-
-		Map<Integer, String> outputParamsNames = new LinkedHashMap<>();
-		outputParamsNames.put(1, AppParams.RESULT_CODE);
-		outputParamsNames.put(2, AppParams.RESULT_MSG);
-		outputParamsNames.put(3, AppParams.RESULT_DATA);
-
-		Map searchResultMap = DBProcedureUtil.execute(dataSource, FIND_ALL_USER, inputParams, outputParamsTypes,
-				outputParamsNames);
-
-		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-		if (resultCode != HttpResponseStatus.OK.code()) {
-			System.out.println("service :" + HttpResponseStatus.OK.code());
-			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
-		}
-
-		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
-
-		LOGGER.info(Level.INFO + "=> All Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
+		List<Map> resultDataList = searchAll(FIND_ALL_USER, new Object[] {});
 		List<Map> result = new ArrayList();
 		for (Map b : resultDataList) {
 			b = UserMapper.format(b);
 			result.add(b);
 		}
-
 		return result;
 	}
 	
 	
-	public static void insert(String email, String avatar, String password) throws SQLException {
-		Map inputParams = new LinkedHashMap<Integer, String>();
+	public static void create(String email, String avatar, String password) throws SQLException {
+		/*Map inputParams = new LinkedHashMap<Integer, String>();
 		inputParams.put(1, email);
 		inputParams.put(2, avatar);
 		inputParams.put(3, password);
@@ -97,153 +67,45 @@ public class UserService{
 
 		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
 
-		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
-		List<Map> result = new ArrayList();
-		for (Map b : resultDataList) {
-			b = UserMapper.format(b);
-			result.add(b);
-		}
+		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));*/
+		excuteQuery(CREATE_USER, new Object[] {email, avatar, password});
+
 	}
 	
-	
 	public static List<Map> findUserById(String id) throws SQLException {
-
-		Map inputParams = new LinkedHashMap<Integer, String>();
-		inputParams.put(1, id);
-		
-		Map<Integer, Integer> outputParamsTypes = new LinkedHashMap<>();
-		outputParamsTypes.put(2, OracleTypes.NUMBER);
-		outputParamsTypes.put(3, OracleTypes.VARCHAR);
-		outputParamsTypes.put(4, OracleTypes.CURSOR);
-
-		Map<Integer, String> outputParamsNames = new LinkedHashMap<>();
-		outputParamsNames.put(2, AppParams.RESULT_CODE);
-		outputParamsNames.put(3, AppParams.RESULT_MSG);
-		outputParamsNames.put(4, AppParams.RESULT_DATA);
-
-		Map searchResultMap = DBProcedureUtil.execute(dataSource, FIND_USER_BY_ID, inputParams, outputParamsTypes,
-				outputParamsNames);
-
-		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-		if (resultCode != HttpResponseStatus.OK.code()) {
-			System.out.println("service :" + HttpResponseStatus.OK.code());
-			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
-		}
-
-		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
-
-		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
+		/*List<Map> resultDataList = excuteQuery(FIND_USER_BY_ID, new Object[] {id});
 		List<Map> result = new ArrayList();
 		for (Map b : resultDataList) {
 			b = UserMapper.format(b);
 			result.add(b);
 		}
-
-		return result;
+		return resultDataList;*/
+		return excuteQuery(FIND_USER_BY_ID, new Object[] {id});
 	}
 	
 	public static List<Map> findUserByEmail(String email) throws SQLException {
-
-		Map inputParams = new LinkedHashMap<Integer, String>();
-		inputParams.put(1, email);
-		
-		Map<Integer, Integer> outputParamsTypes = new LinkedHashMap<>();
-		outputParamsTypes.put(2, OracleTypes.NUMBER);
-		outputParamsTypes.put(3, OracleTypes.VARCHAR);
-		outputParamsTypes.put(4, OracleTypes.CURSOR);
-
-		Map<Integer, String> outputParamsNames = new LinkedHashMap<>();
-		outputParamsNames.put(2, AppParams.RESULT_CODE);
-		outputParamsNames.put(3, AppParams.RESULT_MSG);
-		outputParamsNames.put(4, AppParams.RESULT_DATA);
-
-		Map searchResultMap = DBProcedureUtil.execute(dataSource, FIND_USER_BY_EMAIL, inputParams, outputParamsTypes,
-				outputParamsNames);
-
-		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-		if (resultCode != HttpResponseStatus.OK.code()) {
-			System.out.println("service :" + HttpResponseStatus.OK.code());
-			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
-		}
-
-		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
-
-		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
+		/*Map resultDataList = searchOne(FIND_USER_BY_EMAIL, new Object[]{email});
+		List<Map> list = new ArrayList<Map>(resultDataList.values());
 		List<Map> result = new ArrayList();
-		for (Map b : resultDataList) {
+		for (Map b : list) {
 			b = UserMapper.format(b);
 			result.add(b);
 		}
-
-		return result;
+		return result;*/
+		return excuteQuery(FIND_USER_BY_EMAIL, new Object[]{email});
 	}
 	
 	public static void update(String email, String avatar, String password) throws SQLException {
-		Map inputParams = new LinkedHashMap<Integer, String>();
-		inputParams.put(1, email);
-		inputParams.put(2, avatar);
-		inputParams.put(3, password);
-		
-		Map<Integer, Integer> outputParamsTypes = new LinkedHashMap<>();
-		outputParamsTypes.put(4, OracleTypes.NUMBER);
-		outputParamsTypes.put(5, OracleTypes.VARCHAR);
-		outputParamsTypes.put(6, OracleTypes.CURSOR);
-
-		Map<Integer, String> outputParamsNames = new LinkedHashMap<>();
-		outputParamsNames.put(4, AppParams.RESULT_CODE);
-		outputParamsNames.put(5, AppParams.RESULT_MSG);
-		outputParamsNames.put(6, AppParams.RESULT_DATA);
-
-		Map searchResultMap = DBProcedureUtil.execute(dataSource, UPDATE_USER, inputParams, outputParamsTypes,
-				outputParamsNames);
-
-		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-		if (resultCode != HttpResponseStatus.OK.code()) {
-			System.out.println("service :" + HttpResponseStatus.OK.code());
-			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
-		}
-
-		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
-
-		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
-		List<Map> result = new ArrayList();
+		update(UPDATE_USER, new Object[] {email, avatar, password});
+		/*List<Map> result = new ArrayList();
 		for (Map b : resultDataList) {
 			b = UserMapper.format(b);
 			result.add(b);
-		}
+		}*/
 	}
 	
 	public static void delete(String email) throws SQLException {
-		Map inputParams = new LinkedHashMap<Integer, String>();
-		inputParams.put(1, email);
-		
-		Map<Integer, Integer> outputParamsTypes = new LinkedHashMap<>();
-		outputParamsTypes.put(2, OracleTypes.NUMBER);
-		outputParamsTypes.put(3, OracleTypes.VARCHAR);
-		outputParamsTypes.put(4, OracleTypes.CURSOR);
-
-		Map<Integer, String> outputParamsNames = new LinkedHashMap<>();
-		outputParamsNames.put(2, AppParams.RESULT_CODE);
-		outputParamsNames.put(3, AppParams.RESULT_MSG);
-		outputParamsNames.put(4, AppParams.RESULT_DATA);
-
-		Map searchResultMap = DBProcedureUtil.execute(dataSource, DELETE_USER, inputParams, outputParamsTypes,
-				outputParamsNames);
-
-		int resultCode = ParamUtil.getInt(searchResultMap, AppParams.RESULT_CODE);
-		if (resultCode != HttpResponseStatus.OK.code()) {
-			System.out.println("service :" + HttpResponseStatus.OK.code());
-			throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
-		}
-
-		List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
-
-		LOGGER.info(Level.INFO + "=> Users result: " + ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA));
-		List<Map> result = new ArrayList();
-		for (Map b : resultDataList) {
-			b = UserMapper.format(b);
-			result.add(b);
-		}
+		delete(DELETE_USER, new Object[] {email});
 	}
 	
 	private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
