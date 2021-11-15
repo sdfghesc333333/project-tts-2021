@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.user;
+package com.app.tts.server.handler.User;
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
@@ -31,23 +31,19 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
 //                data.put("email", email);
-
-                LOGGER.info("---password = " + email);
                 List<Map> user = UserService.getPassByEmail(email);
 
                 boolean duplicate = false;
                 if (!user.isEmpty()) {
                     duplicate = true;
-                }if (!password.equals(confirmPassword)) {
-                    duplicate = true;
-                    data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
                 }
-                if (6 <= password.length() && password.length() <= 18) {
+                if (!password.equals(confirmPassword)) {
+                    data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
+                } else if (18 <= password.length() && password.length() <= 6) {
                     data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
-                }else if (!duplicate) {
+                } else if (!user.equals(passwordold)) {
                     data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
-                }else if (duplicate) {
-
+                } else if (!duplicate) {
                     List<Map> userJson = UserService.updatePass(email, password);
                     data.put("đổi mật khẩu thành công: ", userJson);
                     rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
@@ -74,5 +70,6 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
         valid = EmailValidator.getInstance().isValid(email);
         return true;
     }
+
     private static final Logger LOGGER = Logger.getLogger(UpdatePassHandler.class.getName());
 }

@@ -117,10 +117,10 @@ public class UserService  extends MasterService{
 
     public static List<Map> getPassByEmail(String email)throws SQLException {
 
-        Map resultMap = new HashMap<>();
+
         List<Map> resultDataList = excuteQuery(GET_PASS_BY_EMAIL, new Object[]{email});
 
-        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+        LOGGER.info("=> GET PASSWORD BY EMAIL  result: " + resultDataList);
 
         return resultDataList;
     }
