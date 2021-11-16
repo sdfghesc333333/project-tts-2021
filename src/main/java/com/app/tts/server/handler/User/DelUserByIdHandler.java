@@ -20,14 +20,14 @@ public class DelUserByIdHandler implements Handler<RoutingContext> {
         rc.vertx().executeBlocking(future -> {
             try {
                 HttpServerRequest httpServerRequest = rc.request();
-                String cusId = httpServerRequest.getParam("cusId");
-                LOGGER.info("---cusId  = "+ cusId);
+                String userId = httpServerRequest.getParam("userId");
+                LOGGER.info("---userId  = "+ userId);
                 Map data = new HashMap();
 
-                List<Map> Cus=  UserService.delUserById(cusId);
+                List<Map> user=  UserService.delUserById(userId);
 
-                data.put("xóa thành công ID: " + cusId +
-                        " || "+ "ALL_Cus", Cus);
+                data.put("xóa thành công ID: " + userId +
+                        " || "+ "ALL_user", user);
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
