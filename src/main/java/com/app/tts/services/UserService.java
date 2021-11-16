@@ -27,6 +27,18 @@ public class UserService  extends MasterService{
 
         return result;
     }
+    
+    public static List<Map> insert(String id) throws SQLException {
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(DEL_USER_BY_ID, new Object[]{id});
+        LOGGER.info("=> DELETE USER by id result: " + resultDataList);
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+
+        return result;
+    }
    
 
     private static Map format(Map queryData) throws SQLException {
