@@ -5,20 +5,12 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.User.UpdatePassHandler;
-import com.app.tts.server.handler.User.UpdateUserHandler;
-import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
-import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.User.DelUserByIdHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
-
-
-import com.app.tts.server.handler.user.DelUserByIdHandler;
-import com.app.tts.server.handler.user.GetAllUserHandler;
-import com.app.tts.server.handler.user.GetUserByIdHandler;
-import com.app.tts.server.handler.User.RegisterUserHandler;
+import com.app.tts.server.handler.option.OptionHandler;
+import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -140,13 +132,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
-		router.route(HttpMethod.GET, "/user/:userId").handler(new GetUserByIdHandler());
 		router.route(HttpMethod.DELETE, "/user/:userId").handler(new DelUserByIdHandler());
-		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
-		router.route(HttpMethod.PUT, "/users").handler(new UpdatePassHandler());
 		return router;
 	}
 }
